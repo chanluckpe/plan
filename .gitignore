@@ -1,0 +1,5 @@
+dist/
+test/index.html
+test/shots/
+test/fonts/
+__pycache__/

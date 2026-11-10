@@ -1,0 +1,64 @@
+<title>작전 만들기 기기 미리보기</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* 레이아웃: 위 도구막대(기기 고르기) + 아래 무대(기기 화면을 화면 크기에 맞춰 축소해 나란히 보여 줌) */
+:root { --bg: #e9edf2; --surface: #ffffff; --ink: #1c2140; --muted: #667089; --line: #d6dde8; --accent: #d6223f; --bezel: #1b1f2e; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #0f1320; --surface: #1a2036; --ink: #eef1ff; --muted: #a0a8c8; --line: #2e3654; --accent: #ff4d68; --bezel: #000; color-scheme: dark; } }
+:root[data-theme="dark"] { --bg: #0f1320; --surface: #1a2036; --ink: #eef1ff; --muted: #a0a8c8; --line: #2e3654; --accent: #ff4d68; --bezel: #000; color-scheme: dark; }
+html, body { height: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.5 "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif; display: flex; flex-direction: column; }
+.bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding-block: 12px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); background: var(--surface); border-bottom: 1px solid var(--line); }
+.bar h1 { margin: 0 10px 0 0; font-size: 16px; font-weight: 800; }
+.bar button { border: 2px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 12px; padding: 7px 13px; font: inherit; font-weight: 800; cursor: pointer; }
+.bar button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+.bar .sp { flex: 1; }
+.bar small { color: var(--muted); font-weight: 700; }
+.stage { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; gap: 28px; padding: 18px max(16px, env(safe-area-inset-right, 0px)) 18px max(16px, env(safe-area-inset-left, 0px)); overflow: auto; }
+.dev { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: none; }
+.dev .lbl { font-weight: 800; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.dev .box { position: relative; flex: none; }
+.dev .frame { position: absolute; left: 0; top: 0; transform-origin: 0 0; border-radius: 36px; background: var(--bezel); padding: 14px; box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .55); }
+.dev iframe { display: block; border: 0; border-radius: 24px; background: #fff; }
+</style>
+<div class="bar">
+  <h1>📱 기기 미리보기</h1>
+  <button data-v="all" class="on">모두 보기</button>
+  <button data-v="phone">휴대폰</button>
+  <button data-v="tabP">태블릿 세로</button>
+  <button data-v="tabL">태블릿 가로</button>
+  <span class="sp"></span>
+  <small>각 화면 안에서 실제처럼 눌러 볼 수 있어요</small>
+  <button id="reload">↻ 다시 불러오기</button>
+</div>
+<div class="stage" id="stage"></div>
+<script type="text/plain" id="appsrc">__APP_B64__</script>
+<script>
+const DEV = { phone: ['휴대폰', 390, 844], tabP: ['태블릿 세로', 820, 1180], tabL: ['태블릿 가로', 1180, 820] };
+const b64 = document.getElementById('appsrc').textContent.trim();
+const bin = atob(b64), u8 = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+const APP = new TextDecoder().decode(u8);
+let view = 'all';
+function build() {
+  const st = document.getElementById('stage'); st.innerHTML = '';
+  const keys = view === 'all' ? ['phone', 'tabP', 'tabL'] : [view];
+  keys.forEach(k => {
+    const [name, w, h] = DEV[k];
+    const d = document.createElement('div'); d.className = 'dev'; d.dataset.k = k;
+    d.innerHTML = `<div class="lbl">${name} · ${w}×${h}</div><div class="box"><div class="frame"><iframe title="${name} 미리보기" width="${w}" height="${h}"></iframe></div></div>`;
+    st.appendChild(d); d.querySelector('iframe').srcdoc = APP;
+  });
+  fit();
+}
+function fit() {
+  const st = document.getElementById('stage'), devs = [...st.querySelectorAll('.dev')];
+  const pad = 28, gap = 28, availW = st.clientWidth - 40, availH = st.clientHeight - 60;
+  const totalW = devs.reduce((a, d) => a + DEV[d.dataset.k][1] + pad, 0) + gap * (devs.length - 1);
+  const maxH = Math.max(...devs.map(d => DEV[d.dataset.k][2] + pad));
+  const s = Math.min(1, availW / totalW, availH / maxH);
+  devs.forEach(d => { const [, w, h] = DEV[d.dataset.k]; const f = d.querySelector('.frame'), box = d.querySelector('.box'); f.style.transform = `scale(${s})`; box.style.width = (w + pad) * s + 'px'; box.style.height = (h + pad) * s + 'px'; });
+}
+document.querySelectorAll('[data-v]').forEach(b => b.onclick = () => { view = b.dataset.v; document.querySelectorAll('[data-v]').forEach(x => x.classList.toggle('on', x === b)); build(); });
+document.getElementById('reload').onclick = build;
+addEventListener('resize', fit);
+build();
+</script>

@@ -1,0 +1,267 @@
+<div id="intro">
+  <div class="in-stage">
+    <div class="in-ring"></div>
+    <span class="in-spark s1">✦</span><span class="in-spark s2">✦</span><span class="in-spark s3">✦</span><span class="in-spark s4">✦</span>
+    <img class="in-img" src="__CHANDO2__" alt="">
+    <h2 class="in-title"><span class="in-l1"><span class="in-ch">급</span><span class="in-ch">식</span><span class="in-ch">대</span><span class="in-ch">장</span><span class="in-ch">의</span></span><span class="in-l2"><span class="in-ch">작</span><span class="in-ch">전</span><span class="in-sp"> </span><span class="in-ch">만</span><span class="in-ch">들</span><span class="in-ch">기</span></span></h2>
+    <p class="in-tag">체육 작전 연구소</p>
+  </div>
+  <button type="button" class="in-go" tabindex="0">작전 분석 시작하기 <span aria-hidden="true">▶</span></button>
+  <p class="in-hint">화면 아무 곳이나 눌러도 시작해요</p>
+  <div class="in-foot">
+    <p class="in-by">제작: 급식대장 챈도리</p>
+    <p class="in-links"><a href="https://www.youtube.com/@%EA%B8%89%EC%8B%9D%EB%8C%80%EC%9E%A5%EC%B1%88%EB%8F%84%EB%A6%AC" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1.5" y="5" width="21" height="14" rx="4.2" fill="#FF0000"/><path d="M10 9v6l5.2-3z" fill="#fff"/></svg>유튜브</a><a href="https://www.instagram.com/chan_ddol/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="igg2" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#F58529"/><stop offset=".5" stop-color="#DD2A7B"/><stop offset="1" stop-color="#8134AF"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="6" fill="url(#igg2)"/><circle cx="12" cy="12" r="4.3" fill="none" stroke="#fff" stroke-width="2"/><circle cx="17.3" cy="6.7" r="1.3" fill="#fff"/></svg>@chan_ddol</a><a href="https://chanluckpe.ai.studio/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true" class="home"><path d="M3.5 11 12 4l8.5 7"/><path d="M5.5 9.5V20h5v-5.5h3V20h5V9.5"/></svg>chanluckpe.ai.studio</a></p>
+    <p class="in-ver">버전 1.0.0</p>
+  </div>
+</div>
+<div class="app">
+  <header class="top">
+    <div class="brand" id="brandHome" role="button" tabindex="0" title="처음 화면으로">
+      <img src="__CHANDO2__" alt="급식대장 챈도리">
+      <div>
+        <h1>급식대장의 <b>작전 만들기</b></h1>
+        <p><span>체육 작전 연구소</span> 그리고 · 돌려 보고 · 작전집에 모아요</p>
+      </div>
+    </div>
+    <div class="top-actions">
+      <button class="btn icon home-book" id="homeBookBtn" title="작전집 보기" aria-label="작전집 보기"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v16H5.5C4.7 20 4 19.3 4 18.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M20 5.5c0-.8-.7-1.5-1.5-1.5H13v16h5.5c.8 0 1.5-.7 1.5-1.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M6.5 8h2.5M6.5 11h2.5M15 8h2.5M15 11h2.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="hb-cnt" id="homeBookCnt" hidden>0</span></button>
+      <button class="btn icon" id="themeBtn" title="밝게/어둡게" aria-label="밝게 또는 어둡게 보기"><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10 2 A8 8 0 0 1 10 18 Z" fill="currentColor"/></svg></button>
+      <button class="btn" id="fileBtn" title="작전집 파일로 저장하거나 불러오기">💾 <span class="t">작전 파일</span></button>
+    </div>
+  </header>
+
+  <section id="home" aria-labelledby="homeTitle">
+    <h2 id="homeTitle" class="sr">종목 고르기</h2>
+    <div class="sport-grid" id="sportGrid"></div>
+  </section>
+
+  <div id="workspace" hidden>
+  <div class="ws-bar">
+    <button class="btn" id="homeBtn">← 종목 고르기</button>
+    <div class="ws-sport" id="wsSport"></div>
+    <div class="tabs" role="tablist">
+      <button class="tab on" data-view="make" role="tab">✏️ 작전 만들기</button>
+      <button class="tab" data-view="book" role="tab">📒 작전집 <span class="count" id="bookCount">0</span></button>
+    </div>
+  </div>
+
+  <main>
+    <section id="view-make">
+      <div class="editor">
+        <div class="board-col">
+        <div class="board-card">
+          <div class="board-head">
+            <div class="bh-title">
+              <span class="sport-badge" id="sportBadge">농구</span>
+              <input id="playName" maxlength="30" placeholder="작전 이름을 적어 주세요" aria-label="작전 이름">
+            </div>
+            <div id="fieldSwitch"></div>
+            <div class="head-btns">
+              <button class="btn" id="pngBtn" title="작전판을 그림으로 저장">🖼 이미지</button>
+              <button class="btn primary" id="playBtn">▶ 작전 보기</button>
+              <button class="btn go" id="toBookBtn">📒 작전집에 담기</button>
+            </div>
+          </div>
+          <div class="board-wrap"><svg id="board" xmlns="http://www.w3.org/2000/svg" aria-label="작전판"></svg></div>
+          <button class="btn fs-open" id="fsBtn" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>전체화면으로 그리기</button>
+          <div class="player-bar" id="playerBar" hidden></div>
+          <div class="tools" id="tools">
+            <div class="tool-row main-tools">
+              <div class="seg big" id="modes">
+                <button data-mode="draw" class="on">✏️ 그리기</button>
+                <button data-mode="move">✋ 옮기기</button>
+                <button data-mode="erase">🧽 지우기</button>
+              </div>
+              <button class="chip" id="undoBtn">↩ 되돌리기</button>
+              <button class="chip danger" id="clearBtn">🗑 선 모두 지우기</button>
+            </div>
+            <div class="tool-row" id="kinds"></div>
+            <div class="tool-row" id="sportTools"></div>
+            <details class="more-tools">
+              <summary>⚙️ 더보기 (구역 · 대칭 · 처음 예시)</summary>
+              <div class="tool-row">
+                <button class="chip" data-mode="zone">⭕ 구역 그리기</button>
+                <span id="zoneTeam" hidden></span>
+                <button class="chip" id="flipBtn">⇋ 대칭</button>
+                <button class="chip danger" id="resetBtn">처음 예시로</button>
+                <label class="chk"><input type="checkbox" id="straightChk" checked> 선 반듯하게</label>
+              </div>
+            </details>
+          </div>
+          <p class="hint" id="hint"></p>
+        </div>
+
+        <section class="panel desc-panel">
+          <div class="desc-top">
+            <h3>📝 작전 설명</h3>
+            <label class="name-inline"><span>작전 이름</span><input id="playName2" maxlength="30" placeholder="예: 기브 앤 고"></label>
+          </div>
+          <div class="field"><label for="playDesc">작전 설명 (어떻게 움직이나요?)</label><textarea id="playDesc" maxlength="400" placeholder="누가 공을 받나요? 다른 선수는 어디로 움직이나요? 어떤 수비를 상대로 쓰면 좋을까요?"></textarea></div>
+          <button class="btn go" id="toBookBtn2">📒 작전집에 담기</button>
+        </section>
+        </div>
+
+        <aside class="side">
+          <section class="panel line-panel" id="linePanel" hidden>
+            <h3>선택한 선 <small id="lineWho"></small></h3>
+            <div class="kgrid" id="lineKinds"></div>
+            <div class="field"><label>출발 시점 (다른 선수와 타이밍 맞추기)</label><div class="delays" id="lineDelays"></div></div>
+            <div class="modal-btns" style="justify-content:flex-start;margin-top:4px">
+              <button class="btn sm" id="lineDel">🗑 이 선 지우기</button>
+              <button class="btn sm ghost" id="lineClose">닫기</button>
+            </div>
+          </section>
+
+          <section class="panel">
+            <h3>예시 작전 <button class="btn sm tips-btn" id="tipsBtn" aria-haspopup="dialog">📌 <span id="tipsBtnName">종목 포인트</span></button></h3>
+            <p class="preset-note" id="presetNote"></p>
+            <div class="presets" id="presetList"></div>
+          </section>
+
+          <section class="panel">
+            <h3>선수 <small id="rosterCount"></small></h3>
+            <div class="roster" id="roster"></div>
+            <div class="radd">
+              <button class="btn sm" id="addA">+ <span id="addAName">우리 팀</span></button>
+              <button class="btn sm" id="addB">+ <span id="addBName">상대 팀</span></button>
+            </div>
+          </section>
+
+        </aside>
+      </div>
+    </section>
+
+    <section id="view-book" hidden>
+      <div class="book-head">
+        <h2>작전집</h2>
+        <div class="filters" id="bookFilters"></div>
+        <div class="book-actions">
+          <button class="btn" id="bookImgBtn">💾 저장하기</button>
+          <button class="btn" id="printBtn" hidden>🖨 A4 인쇄</button>
+        </div>
+      </div>
+      <div class="book-grid" id="bookGrid"></div>
+    </section>
+  </main>
+  </div>
+  <footer class="sitefoot"><p class="maker"><span class="by">제작: 급식대장 챈도리 <a class="yt" href="https://www.youtube.com/@%EA%B8%89%EC%8B%9D%EB%8C%80%EC%9E%A5%EC%B1%88%EB%8F%84%EB%A6%AC" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1.5" y="5" width="21" height="14" rx="4.2" fill="#FF0000"/><path d="M10 9v6l5.2-3z" fill="#fff"/></svg>유튜브</a></span><span class="mlinks"><a class="ic" href="https://www.instagram.com/chan_ddol/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="igg" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#F58529"/><stop offset=".5" stop-color="#DD2A7B"/><stop offset="1" stop-color="#8134AF"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="6" fill="url(#igg)"/><circle cx="12" cy="12" r="4.3" fill="none" stroke="#fff" stroke-width="2"/><circle cx="17.3" cy="6.7" r="1.3" fill="#fff"/></svg>@chan_ddol</a><span class="dot">·</span><a class="ic" href="https://chanluckpe.ai.studio/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true" class="home"><path d="M3.5 11 12 4l8.5 7"/><path d="M5.5 9.5V20h5v-5.5h3V20h5V9.5"/></svg>chanluckpe.ai.studio</a><span class="dot">·</span><button type="button" class="fbcard" id="fbOpen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4Z"/><path d="M8 9h8M8 12h5"/></svg>의견 보내기</button></span></p></footer>
+</div>
+
+
+<div class="fs-layer" id="fsLayer" hidden>
+  <div class="fs-top">
+    <button type="button" class="fs-x" id="fsClose" aria-label="전체화면 닫기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg></button>
+    <div class="fs-title" id="fsTitle"></div>
+    <button type="button" class="fs-swap fs-modebtn" id="fsMode" aria-label="그리기 / 옮기기 바꾸기"></button>
+    <button type="button" class="fs-swap fs-undo" id="fsUndo" aria-label="되돌리기" title="되돌리기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7 4 12l5 5"/><path d="M4 12h10a5 5 0 0 1 0 10h-3"/></svg></button>
+    <button type="button" class="fs-swap" id="fsSwap"></button>
+  </div>
+  <div class="fs-stage" id="fsStage"></div>
+  <div class="fs-sheet" id="fsSheet" hidden>
+    <div class="fs-sheet-head"><b id="fsSheetTitle"></b><button type="button" class="fs-sheet-x" id="fsSheetClose" aria-label="닫기">✕</button></div>
+    <div class="fs-sheet-body" id="fsSheetBody"></div>
+  </div>
+  <div class="fs-pbar" id="fsPbar"></div>
+  <nav class="fs-nav" id="fsNav"><button type="button" class="fs-nav-btn" data-fs="preset"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h11l3 3v13H5Z"/><path d="M9 10h6M9 14h6M9 18h3"/></svg><span>예시 작전</span></button><button type="button" class="fs-nav-btn" data-fs="roster"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.6-3.4 2.8-5 5.5-5s4.9 1.6 5.5 5"/><circle cx="17" cy="9" r="2.5"/><path d="M15.5 14.2c2.6-.4 4.6 1 5 4.3"/></svg><span>선수 세팅</span></button><button type="button" class="fs-nav-btn" data-fs="play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5v14l12-7Z" class="fill pl"/><rect class="fill st" x="6.5" y="6.5" width="11" height="11" rx="2"/></svg><span>작전 보기</span></button><button type="button" class="fs-nav-btn" data-fs="tools"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M9 8V5.5h6V8M3 13h18M11 12v3h2v-3"/></svg><span>편집 도구</span></button><button type="button" class="fs-nav-btn" data-fs="send"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12 20 4l-6 16-3-7Z"/><path d="M11 13 20 4"/></svg><span>작전 보내기</span></button></nav>
+</div>
+<div class="fs-send-src" id="fsSendSrc" hidden>
+  <div class="field"><label for="fsName">작전 이름</label><input id="fsName" maxlength="30" placeholder="작전 이름을 적어 주세요"></div>
+  <div class="field"><label for="fsDesc">작전 설명 (어떻게 움직이나요?)</label><textarea id="fsDesc" maxlength="400" rows="2" placeholder="누가 공을 받나요? 다른 선수는 어디로 움직이나요?"></textarea></div>
+  <div class="fs-send-btns">
+    <button type="button" class="btn go" data-fsgo="book">📒 작전집에 담기</button>
+    <button type="button" class="btn" data-fsgo="png">🖼 이미지로 저장</button>
+    <button type="button" class="btn" data-fsgo="file">💾 작전 파일</button>
+  </div>
+</div>
+<div class="modal" id="fbModal" hidden>
+  <div class="modal-card fbbox" role="dialog" aria-modal="true" aria-labelledby="fbTitle">
+    <div class="fbhead"><div class="fbtitle"><h3 id="fbTitle">급식대장에게 의견전송</h3><p class="lead" id="fbLead">새로운 아이디어, 기능추가, 오류, 질문, 사용법 등 의견을 꼭 보내주세요!</p></div><button class="btn sm" type="button" id="fbClose">닫기</button></div>
+    <div class="seg3" role="radiogroup" aria-label="의견 종류" id="fbType">
+      <button type="button" role="radio" data-k="idea" aria-checked="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3Z"/></svg>아이디어 보내기</button>
+      <button type="button" role="radio" data-k="bug" aria-checked="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="8" width="10" height="12" rx="5"/><path d="M12 8V5M9 5l1.5 2M15 5l-1.5 2M7 12H3M21 12h-4M7 17l-3 2M17 17l3 2"/></svg>오류 및 기능추가</button>
+      <button type="button" role="radio" data-k="etc" aria-checked="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4Z"/></svg>기타의견</button>
+    </div>
+    <div class="field"><label for="fbSport">종목</label><select id="fbSport"></select></div>
+    <div class="field"><label for="fbText">내용</label><textarea id="fbText"></textarea></div>
+    <div class="field"><label for="fbName">보내는 사람 <small>(선택 · 학교나 이름)</small></label><input type="text" id="fbName" placeholder="예) ○○중 체육 김선생" autocomplete="off"></div>
+    <p class="fberr" id="fbErr" hidden>내용을 적어 주세요.</p>
+    <div class="fbsteps" id="fbSteps" hidden></div>
+    <div class="sendrow">
+      <a class="btn kakao" id="fbKakao" role="button" tabindex="0" data-href="https://open.kakao.com/o/s5bh9QCe" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 4C7 4 3 7.2 3 11.1c0 2.5 1.7 4.7 4.2 6l-1 3.6c-.1.3.3.6.6.4l4.2-2.8h1c5 0 9-3.2 9-7.2S17 4 12 4Z"/></svg>카카오톡으로 보내기</a>
+      <a class="btn insta" id="fbInsta" role="button" tabindex="0" data-href="https://www.instagram.com/chan_ddol/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3.6" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="16.8" cy="7.2" r="1.1" fill="currentColor"/></svg>인스타그램 DM으로 보내기</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="viewer" hidden>
+  <div class="modal-card wide" role="dialog" aria-modal="true" aria-labelledby="vTitle">
+    <div class="viewer-head">
+      <span class="sport-badge" id="vSport"></span>
+      <h3 id="vTitle"></h3>
+      <button class="btn sm" id="vPrev" aria-label="이전 작전">◀</button>
+      <span class="meta" id="vNum" style="font-variant-numeric:tabular-nums;font-weight:800;color:var(--muted)"></span>
+      <button class="btn sm" id="vNext" aria-label="다음 작전">▶</button>
+      <button class="btn sm" id="vClose" aria-label="닫기">✕</button>
+    </div>
+    <div class="viewer-board"><svg id="vBoard" xmlns="http://www.w3.org/2000/svg"></svg></div>
+    <div class="player-bar" id="vBar"></div>
+    <p class="viewer-desc" id="vDesc"></p>
+    <div class="modal-btns"><button class="btn" id="vEdit">✏️ 작전판에서 고치기</button></div>
+  </div>
+</div>
+
+<div class="modal" id="tipsModal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="tipsTitle">
+    <div class="viewer-head"><h3 id="tipsTitle">종목 포인트</h3><button class="btn sm" id="tipsClose" aria-label="닫기">✕</button></div>
+    <ul class="tips" id="tips"></ul>
+  </div>
+</div>
+
+<div class="modal" id="ask" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="askTitle">
+    <h3 id="askTitle"></h3>
+    <p id="askText"></p>
+    <div class="modal-btns"><button class="btn" id="askNo">취소</button><button class="btn primary" id="askYes">확인</button></div>
+  </div>
+</div>
+
+<div class="modal" id="saveModal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="saveTitle">
+    <div class="viewer-head"><h3 id="saveTitle">작전집 저장하기</h3><button class="btn sm" id="saveClose" aria-label="닫기">✕</button></div>
+    <p id="saveNote" class="save-note"></p>
+    <div class="save-pick">
+      <button class="fmt" data-save="png"><span class="fi">🖼</span><b>이미지</b><small>PNG 그림 파일</small></button>
+      <button class="fmt" data-save="pdf"><span class="fi">📄</span><b>PDF</b><small>A4 가로 문서</small></button>
+    </div>
+  </div>
+</div>
+<div class="modal" id="imgModal" hidden>
+  <div class="modal-card wide" role="dialog" aria-modal="true" aria-labelledby="imgTitle">
+    <div class="viewer-head"><h3 id="imgTitle">이미지</h3><button class="btn sm" id="imgClose" aria-label="닫기">✕</button></div>
+    <p>그림을 길게 누르거나(휴대폰) 오른쪽 클릭(컴퓨터)해서 저장할 수 있어요.</p>
+    <div class="img-list" id="imgList"></div>
+    <div class="modal-btns"><button class="btn primary" id="imgDl">⬇ 내려받기</button></div>
+  </div>
+</div>
+
+<div class="modal" id="fileModal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="fileTitle">
+    <div class="viewer-head"><h3 id="fileTitle">작전 파일</h3><button class="btn sm" id="fileClose" aria-label="닫기">✕</button></div>
+    <p>무엇을 저장할지 고른 다음, 파일 형식을 눌러 내려받아요.</p>
+    <div class="field"><label>저장할 범위</label>
+      <div class="seg scope" id="fileScope" role="group" aria-label="저장할 범위"><button data-scope="board" class="on">지금 작전판</button><button data-scope="sport" id="scopeSport">이 종목 작전집</button><button data-scope="all">작전집 전체</button></div>
+      <small class="scope-note" id="scopeNote"></small>
+    </div>
+    <div class="fmt-grid">
+      <button class="fmt" data-fmt="json"><b>JSON</b><span>앱에서 다시 불러올 수 있는 작전 파일</span></button>
+      <button class="fmt" data-fmt="png"><b>PNG</b><span>그림 파일 (작전 4개씩 한 장)</span></button>
+      <button class="fmt" data-fmt="pdf"><b>PDF</b><span>A4 가로 문서, 인쇄하기 좋아요</span></button>
+    </div>
+    <div class="field" style="margin-top:18px"><label>친구가 보낸 작전 불러오기</label>
+      <label class="btn" style="align-self:flex-start">📂 JSON 파일 골라서 작전집에 더하기<input type="file" id="filePick" accept=".json,application/json" hidden></label>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div id="printArea"></div>
