@@ -10,8 +10,9 @@ def board(a, bcol, op):
     return 'data:image/svg+xml,' + urllib.parse.quote(svg)
 css = (S/'style.css').read_text(encoding='utf-8').replace('__PRETENDARD__', pret).replace('__BOARD_LIGHT__', board('#2563eb', '#dc2626', .16)).replace('__BOARD_DARK__', board('#e8f5ee', '#facc15', .12))
 body = (S/'body.html').read_text(encoding='utf-8').replace('__CHANDO__', chando).replace('__CHANDO2__', chando2)
+body += '\n<script type="application/octet-stream" id="bgmData">' + base64.b64encode((S/'bgm.mp3').read_bytes()).decode() + '</script>\n'
 tiles = {p.stem: 'data:image/webp;base64,' + base64.b64encode(p.read_bytes()).decode() for p in (S/'tiles').glob('*.webp')}
-js = '\n'.join((S/f).read_text(encoding='utf-8') for f in ['engine.js','sports1.js','sports2.js','sports3.js','sports4.js','sports5.js','sports6.js','sports7.js','app.js','motion.js','fs.js']).replace('__CHANDO__', chando).replace('__CHANDO2__', chando2)
+js = '\n'.join((S/f).read_text(encoding='utf-8') for f in ['engine.js','sports1.js','sports2.js','sports3.js','sports4.js','sports5.js','sports6.js','sports7.js','app.js','motion.js','fs.js','bgm.js']).replace('__CHANDO__', chando).replace('__CHANDO2__', chando2)
 from PIL import Image
 def _bg(p):
     im = Image.open(p).convert('RGB'); w, h = im.size
