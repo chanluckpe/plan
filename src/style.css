@@ -619,3 +619,4 @@ body.fs-mode .toast { bottom: calc(max(8px, env(safe-area-inset-bottom, 0px)) + 
 .in-by { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 4px; }
 .in-by .bgm-btn { margin-right: 6px; font-family: inherit; }
 @media (prefers-reduced-motion: reduce) { .bgm-btn.on .bgm-eq i { animation: none; height: 9px; } }
+.bgm-hint { display: none; } html.bgm-blocked .bgm-hint { display: inline; }

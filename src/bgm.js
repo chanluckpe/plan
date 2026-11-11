@@ -25,7 +25,7 @@
   function play() {
     const a = getAudio(); if (!a) return;
     const p = a.play(); started = true;
-    if (p && p.catch) p.catch(() => { started = false; });
+    if (p && p.then) p.then(() => document.documentElement.classList.remove('bgm-blocked')).catch(() => { started = false; a.volume = 0; document.documentElement.classList.add('bgm-blocked'); });
     fadeTo(.35, 1200);
   }
   function stop() { if (!audio) return; fadeTo(0, 400, () => audio.pause()); }
@@ -47,4 +47,6 @@
   document.addEventListener('visibilitychange', () => { if (!audio) return; if (document.hidden) audio.pause(); else if (on && started) { audio.play().catch(() => {}); } });
   window.bgmState = () => audio ? { paused: audio.paused, t: +audio.currentTime.toFixed(1), v: +audio.volume.toFixed(2) } : null;
   sync();
+  /* 앱을 열자마자 바로 재생해요. 브라우저가 막으면 첫 터치(아무 곳) 때 바로 시작해요 */
+  if (on) play();
 })();
