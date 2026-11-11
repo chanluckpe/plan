@@ -150,14 +150,13 @@ function kindSample(K) {
   return `<svg width="30" height="14" viewBox="0 0 30 14" aria-hidden="true" style="color:${K.color}"><g stroke="${K.color}" stroke-width="2.6" fill="none" stroke-linecap="round"><path d="${d}"${dash}/>${end}</g></svg>`;
 }
 function renderKinds() {
-  const auto = kind === 'auto';
-  $('kinds').innerHTML = `<span class="lbl">선 종류</span><button class="chip auto-chip${auto && mode === 'draw' ? ' on' : ''}" data-kind="auto" title="그린 모양을 보고 달리기·패스·슛·드리블을 알아서 정해요">🤖 자동</button>` +
-    `<button class="chip ghost kinds-tg" data-ktg aria-expanded="${kindsOpen}">${kindsOpen ? '접기 ▴' : '직접 고르기 ▾'}</button>` +
-    (kindsOpen ? Object.entries(sport.kinds).map(([k, K]) => `<button class="chip${k === kind && mode === 'draw' ? ' on' : ''}" data-kind="${k}" title="${esc(K.hint || '')}">${kindSample(K)}${K.name}</button>`).join('') : '');
+  /* 아무것도 고르지 않으면 그린 모양을 보고 알아서 정해요. 같은 칸을 다시 누르면 선택이 풀려요 */
+  $('kinds').innerHTML = `<span class="lbl">선 종류</span>` +
+    Object.entries(sport.kinds).map(([k, K]) => `<button class="chip${k === kind && mode === 'draw' ? ' on' : ''}" data-kind="${k}" title="${esc(K.hint || '')}">${kindSample(K)}${K.name}</button>`).join('');
 }
 $('kinds').addEventListener('click', e => {
-  if (e.target.closest('[data-ktg]')) { kindsOpen = !kindsOpen; renderKinds(); return; }
-  const b = e.target.closest('[data-kind]'); if (!b) return; kind = b.dataset.kind; setMode('draw');
+  const b = e.target.closest('[data-kind]'); if (!b) return;
+  kind = kind === b.dataset.kind ? 'auto' : b.dataset.kind; setMode('draw');
 });
 
 const HINTS = {
@@ -170,8 +169,8 @@ function setMode(m) {
   document.querySelectorAll('[data-mode]').forEach(b => b.classList.toggle('on', b.dataset.mode === m));
   const K = sport.kinds[kind];
   $('hint').innerHTML = '💡 <span>' + (m === 'draw' ? (kind === 'auto'
-    ? '<b>선수를 누른 채 끌어요.</b> 공 가진 선수 → 동료 쪽이면 <b>패스</b>, 골대 쪽이면 <b>슛</b>, 빈 곳이면 <b>드리블</b>. 공 없는 선수는 <b>달리기</b>예요. 타이밍도 자동으로 맞춰요. 선수 자리를 바꿀 때는 <b>✋ 옮기기</b>를 눌러요.'
-    : `<b>${esc(K.name)}</b> ${esc(K.hint || '')}. 선수(또는 선 끝의 동그라미)를 누른 채로 그어요.`) : HINTS[m]) + '</span>';
+    ? '<b>선수를 누른 채 끌어요.</b> 선 종류를 고르지 않으면 공 가진 선수 → 동료 쪽은 <b>패스</b>, 골대 쪽은 <b>슛</b>, 빈 곳은 <b>드리블</b>, 공 없는 선수는 <b>달리기</b>로 정해져요. 선수 자리를 바꿀 때는 <b>✋ 옮기기</b>를 눌러요.'
+    : `<b>${esc(K.name)}</b> ${esc(K.hint || '')}. 선수(또는 선 끝의 동그라미)를 누른 채로 그어요. (한 번 더 누르면 선택이 풀려요)`) : HINTS[m]) + '</span>';
   $('zoneTeam').hidden = m !== 'zone';
   $('zoneTeam').innerHTML = `<span class="seg"><button data-zt="B" class="${zoneTeam === 'B' ? 'on' : ''}">${esc(teamName('B'))} 구역</button><button data-zt="A" class="${zoneTeam === 'A' ? 'on' : ''}">${esc(teamName('A'))} 구역</button></span>`;
   board.style.cursor = m === 'draw' || m === 'zone' ? 'crosshair' : m === 'erase' ? 'pointer' : 'default';

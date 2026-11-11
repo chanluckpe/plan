@@ -84,7 +84,7 @@ async function zoomOpen(tile) {
   if (phone) fsMode.goFull();
   if (RM || fxBusy || !tile.animate) { openSport(id, 'make'); if (phone) fsMode.enter({ home: true, noFull: true }); else fadeInWorkspace(); return; }
   fxBusy = true;
-  const r = tile.getBoundingClientRect(), W = innerWidth, H = innerHeight;
+  const r = tile.getBoundingClientRect(), vv = window.visualViewport, W = vv ? vv.width : document.documentElement.clientWidth, H = vv ? vv.height : innerHeight, OX = vv ? vv.offsetLeft : 0, OY = vv ? vv.offsetTop : 0;
   const fx = document.createElement('div'); fx.className = 'zoom-fx';
   const veil = document.createElement('div'); veil.className = 'zoom-veil';
   const card = document.createElement('div'); card.className = 'zoom-card';
@@ -97,7 +97,7 @@ async function zoomOpen(tile) {
 
   /* 가운데로 굴러오며 커지기 → 화면 가득 */
   const s = Math.min(W * .62 / r.width, H * .62 / r.height, 2.6);
-  const mw = r.width * s, mh = r.height * s, cx = (W - mw) / 2, cy = (H - mh) / 2;
+  const mw = r.width * s, mh = r.height * s, cx = OX + (W - mw) / 2, cy = OY + (H - mh) / 2;
   anim(veil, [{ opacity: 0 }, { opacity: 1 }], { duration: 520, easing: 'ease-out' });
   const home = $('home'); anim(home, [{ filter: 'blur(0)', transform: 'scale(1)' }, { filter: 'blur(7px)', transform: 'scale(.97)' }], { duration: 600, easing: 'ease-out' });
   /* ① 굴러서 가운데로 → ② 그 자리에서 종목 동작 (화면 가득 확대는 하지 않아요) */

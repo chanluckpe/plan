@@ -14,7 +14,8 @@
     send: { title: '작전 보내기', els: () => [...$('fsSendSrc').children] }
   };
   let open = false, cur = null, homeOnExit = false, moved = [], bookOn = false, skipPop = false, bookOnly = false;
-  const PHONE = matchMedia('(max-width: 1180px), (max-width: 1366px) and (pointer: coarse), (hover: none) and (max-width: 1366px)'); /* 모바일 + 태블릿(가로·세로) */
+  const PHONE0 = matchMedia('(max-width: 1180px), (max-width: 1366px) and (pointer: coarse), (hover: none) and (max-width: 1366px)'); /* 모바일 + 태블릿(가로·세로) */
+  const PHONE = { get matches() { return PHONE0.matches || document.documentElement.classList.contains('is-phone'); } };
   const X_ICON = $('fsClose').innerHTML, BACK_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>';
   function goFull() { try { const r = document.documentElement, f = r.requestFullscreen || r.webkitRequestFullscreen; if (f && !document.fullscreenElement) { const q = f.call(r, { navigationUI: 'hide' }); q && q.catch && q.catch(() => {}); } } catch (e) {} }
   const isOn = () => open;
@@ -156,5 +157,5 @@
   new MutationObserver(() => { if (open) title(); }).observe($('sportBadge'), { childList: true, characterData: true, subtree: true });
   new MutationObserver(() => { if (open && bookOn) title(); }).observe($('bookGrid'), { childList: true });
   window.fsRefresh = () => { if (open) modeBtn(); };
-  window.fsMode = { enter, exit, isOn, goFull, bookMode, boardMode, phone: () => PHONE.matches };
+  window.fsMode = { enter, exit, isOn, goFull, bookMode, boardMode, phone: () => PHONE.matches || document.documentElement.classList.contains('is-phone') };
 })();

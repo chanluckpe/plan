@@ -1,4 +1,6 @@
 <title>급식대장의 작전 만들기</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>(function(){try{var m=matchMedia('(pointer: coarse)').matches,sw=Math.min(screen.width,screen.height);if(m&&sw<=540)document.documentElement.classList.add('is-phone');var v=document.querySelector('meta[name=viewport]');if(!v){v=document.createElement('meta');v.name='viewport';document.head.appendChild(v);}v.content='width=device-width, initial-scale=1, viewport-fit=cover';}catch(e){}})();</script>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="농구·배구·티볼·플래그풋볼·축구·풋살·피구·플라잉디스크·핸드볼·추크볼·넷볼·플로어볼·킨볼·라크로스·럭비·배드민턴·탁구·피클볼·테니스 작전을 그리고, 움직임을 돌려 보고, 작전집으로 모으는 체육 수업 도구">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -619,6 +621,14 @@ body.fs-mode .toast { bottom: calc(max(8px, env(safe-area-inset-bottom, 0px)) + 
 .in-by .bgm-btn { margin-right: 6px; font-family: inherit; }
 @media (prefers-reduced-motion: reduce) { .bgm-btn.on .bgm-eq i { animation: none; height: 9px; } }
 .bgm-hint { display: none; } html.bgm-blocked .bgm-hint { display: inline; }
+
+/* ===== 휴대폰은 화면 폭과 상관없이 언제나 휴대폰 배치 ===== */
+html.is-phone body.home-mode .app { height: auto; overflow: visible; display: block; padding-block: 12px 10px; }
+html.is-phone body.home-mode #home { display: block; }
+html.is-phone body.home-mode .sport-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; grid-template-rows: none !important; gap: 12px; }
+html.is-phone body.home-mode .tile-img { flex: none; aspect-ratio: 1 / 1.05; }
+html.is-phone body.home-mode .tile-name { font-size: 20px; white-space: nowrap; }
+@media (orientation: landscape) { html.is-phone body.home-mode .sport-grid { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; } }
 
 </style>
 <div id="intro">
@@ -4135,14 +4145,13 @@ function kindSample(K) {
   return `<svg width="30" height="14" viewBox="0 0 30 14" aria-hidden="true" style="color:${K.color}"><g stroke="${K.color}" stroke-width="2.6" fill="none" stroke-linecap="round"><path d="${d}"${dash}/>${end}</g></svg>`;
 }
 function renderKinds() {
-  const auto = kind === 'auto';
-  $('kinds').innerHTML = `<span class="lbl">선 종류</span><button class="chip auto-chip${auto && mode === 'draw' ? ' on' : ''}" data-kind="auto" title="그린 모양을 보고 달리기·패스·슛·드리블을 알아서 정해요">🤖 자동</button>` +
-    `<button class="chip ghost kinds-tg" data-ktg aria-expanded="${kindsOpen}">${kindsOpen ? '접기 ▴' : '직접 고르기 ▾'}</button>` +
-    (kindsOpen ? Object.entries(sport.kinds).map(([k, K]) => `<button class="chip${k === kind && mode === 'draw' ? ' on' : ''}" data-kind="${k}" title="${esc(K.hint || '')}">${kindSample(K)}${K.name}</button>`).join('') : '');
+  /* 아무것도 고르지 않으면 그린 모양을 보고 알아서 정해요. 같은 칸을 다시 누르면 선택이 풀려요 */
+  $('kinds').innerHTML = `<span class="lbl">선 종류</span>` +
+    Object.entries(sport.kinds).map(([k, K]) => `<button class="chip${k === kind && mode === 'draw' ? ' on' : ''}" data-kind="${k}" title="${esc(K.hint || '')}">${kindSample(K)}${K.name}</button>`).join('');
 }
 $('kinds').addEventListener('click', e => {
-  if (e.target.closest('[data-ktg]')) { kindsOpen = !kindsOpen; renderKinds(); return; }
-  const b = e.target.closest('[data-kind]'); if (!b) return; kind = b.dataset.kind; setMode('draw');
+  const b = e.target.closest('[data-kind]'); if (!b) return;
+  kind = kind === b.dataset.kind ? 'auto' : b.dataset.kind; setMode('draw');
 });
 
 const HINTS = {
@@ -4155,8 +4164,8 @@ function setMode(m) {
   document.querySelectorAll('[data-mode]').forEach(b => b.classList.toggle('on', b.dataset.mode === m));
   const K = sport.kinds[kind];
   $('hint').innerHTML = '💡 <span>' + (m === 'draw' ? (kind === 'auto'
-    ? '<b>선수를 누른 채 끌어요.</b> 공 가진 선수 → 동료 쪽이면 <b>패스</b>, 골대 쪽이면 <b>슛</b>, 빈 곳이면 <b>드리블</b>. 공 없는 선수는 <b>달리기</b>예요. 타이밍도 자동으로 맞춰요. 선수 자리를 바꿀 때는 <b>✋ 옮기기</b>를 눌러요.'
-    : `<b>${esc(K.name)}</b> ${esc(K.hint || '')}. 선수(또는 선 끝의 동그라미)를 누른 채로 그어요.`) : HINTS[m]) + '</span>';
+    ? '<b>선수를 누른 채 끌어요.</b> 선 종류를 고르지 않으면 공 가진 선수 → 동료 쪽은 <b>패스</b>, 골대 쪽은 <b>슛</b>, 빈 곳은 <b>드리블</b>, 공 없는 선수는 <b>달리기</b>로 정해져요. 선수 자리를 바꿀 때는 <b>✋ 옮기기</b>를 눌러요.'
+    : `<b>${esc(K.name)}</b> ${esc(K.hint || '')}. 선수(또는 선 끝의 동그라미)를 누른 채로 그어요. (한 번 더 누르면 선택이 풀려요)`) : HINTS[m]) + '</span>';
   $('zoneTeam').hidden = m !== 'zone';
   $('zoneTeam').innerHTML = `<span class="seg"><button data-zt="B" class="${zoneTeam === 'B' ? 'on' : ''}">${esc(teamName('B'))} 구역</button><button data-zt="A" class="${zoneTeam === 'A' ? 'on' : ''}">${esc(teamName('A'))} 구역</button></span>`;
   board.style.cursor = m === 'draw' || m === 'zone' ? 'crosshair' : m === 'erase' ? 'pointer' : 'default';
@@ -4956,7 +4965,7 @@ async function zoomOpen(tile) {
   if (phone) fsMode.goFull();
   if (RM || fxBusy || !tile.animate) { openSport(id, 'make'); if (phone) fsMode.enter({ home: true, noFull: true }); else fadeInWorkspace(); return; }
   fxBusy = true;
-  const r = tile.getBoundingClientRect(), W = innerWidth, H = innerHeight;
+  const r = tile.getBoundingClientRect(), vv = window.visualViewport, W = vv ? vv.width : document.documentElement.clientWidth, H = vv ? vv.height : innerHeight, OX = vv ? vv.offsetLeft : 0, OY = vv ? vv.offsetTop : 0;
   const fx = document.createElement('div'); fx.className = 'zoom-fx';
   const veil = document.createElement('div'); veil.className = 'zoom-veil';
   const card = document.createElement('div'); card.className = 'zoom-card';
@@ -4969,7 +4978,7 @@ async function zoomOpen(tile) {
 
   /* 가운데로 굴러오며 커지기 → 화면 가득 */
   const s = Math.min(W * .62 / r.width, H * .62 / r.height, 2.6);
-  const mw = r.width * s, mh = r.height * s, cx = (W - mw) / 2, cy = (H - mh) / 2;
+  const mw = r.width * s, mh = r.height * s, cx = OX + (W - mw) / 2, cy = OY + (H - mh) / 2;
   anim(veil, [{ opacity: 0 }, { opacity: 1 }], { duration: 520, easing: 'ease-out' });
   const home = $('home'); anim(home, [{ filter: 'blur(0)', transform: 'scale(1)' }, { filter: 'blur(7px)', transform: 'scale(.97)' }], { duration: 600, easing: 'ease-out' });
   /* ① 굴러서 가운데로 → ② 그 자리에서 종목 동작 (화면 가득 확대는 하지 않아요) */
@@ -5043,7 +5052,8 @@ document.addEventListener('click', e => {
     send: { title: '작전 보내기', els: () => [...$('fsSendSrc').children] }
   };
   let open = false, cur = null, homeOnExit = false, moved = [], bookOn = false, skipPop = false, bookOnly = false;
-  const PHONE = matchMedia('(max-width: 1180px), (max-width: 1366px) and (pointer: coarse), (hover: none) and (max-width: 1366px)'); /* 모바일 + 태블릿(가로·세로) */
+  const PHONE0 = matchMedia('(max-width: 1180px), (max-width: 1366px) and (pointer: coarse), (hover: none) and (max-width: 1366px)'); /* 모바일 + 태블릿(가로·세로) */
+  const PHONE = { get matches() { return PHONE0.matches || document.documentElement.classList.contains('is-phone'); } };
   const X_ICON = $('fsClose').innerHTML, BACK_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>';
   function goFull() { try { const r = document.documentElement, f = r.requestFullscreen || r.webkitRequestFullscreen; if (f && !document.fullscreenElement) { const q = f.call(r, { navigationUI: 'hide' }); q && q.catch && q.catch(() => {}); } } catch (e) {} }
   const isOn = () => open;
@@ -5185,7 +5195,7 @@ document.addEventListener('click', e => {
   new MutationObserver(() => { if (open) title(); }).observe($('sportBadge'), { childList: true, characterData: true, subtree: true });
   new MutationObserver(() => { if (open && bookOn) title(); }).observe($('bookGrid'), { childList: true });
   window.fsRefresh = () => { if (open) modeBtn(); };
-  window.fsMode = { enter, exit, isOn, goFull, bookMode, boardMode, phone: () => PHONE.matches };
+  window.fsMode = { enter, exit, isOn, goFull, bookMode, boardMode, phone: () => PHONE.matches || document.documentElement.classList.contains('is-phone') };
 })();
 
 /* =====================================================================

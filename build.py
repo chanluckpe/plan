@@ -23,6 +23,8 @@ tilebg = {p.stem: _bg(p) for p in (S/'tiles').glob('*.webp')}
 js = js.replace('__TILEBG__', json.dumps(tilebg))
 for k, v in tiles.items(): js = js.replace(f'__T_{k}__', v)
 head = '''<title>급식대장의 작전 만들기</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>(function(){try{var m=matchMedia('(pointer: coarse)').matches,sw=Math.min(screen.width,screen.height);if(m&&sw<=540)document.documentElement.classList.add('is-phone');var v=document.querySelector('meta[name=viewport]');if(!v){v=document.createElement('meta');v.name='viewport';document.head.appendChild(v);}v.content='width=device-width, initial-scale=1, viewport-fit=cover';}catch(e){}})();</script>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="농구·배구·티볼·플래그풋볼·축구·풋살·피구·플라잉디스크·핸드볼·추크볼·넷볼·플로어볼·킨볼·라크로스·럭비·배드민턴·탁구·피클볼·테니스 작전을 그리고, 움직임을 돌려 보고, 작전집으로 모으는 체육 수업 도구">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,7 +34,7 @@ head = '''<title>급식대장의 작전 만들기</title>
 '''
 page = head + '<style>\n' + css + '\n</style>\n' + body + '\n<script>\n' + js + '\n</script>\n'
 pathlib.Path('dist/artifact.html').write_text(page, encoding='utf-8')
-full = '<!doctype html>\n<html lang="ko">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n' + head + '<style>\n' + css + '\n</style>\n</head>\n<body>\n' + body + '\n<script>\n' + js + '\n</script>\n</body>\n</html>\n'
+full = '<!doctype html>\n<html lang="ko">\n<head>\n<meta charset="utf-8">\n' + head + '<style>\n' + css + '\n</style>\n</head>\n<body>\n' + body + '\n<script>\n' + js + '\n</script>\n</body>\n</html>\n'
 pathlib.Path('dist/급식대장의_작전만들기.html').write_text(full, encoding='utf-8')
 # local test copy with local fonts
 test = full.replace('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js','jspdf.umd.min.js').replace('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&display=swap">','<link rel="stylesheet" href="fonts/fonts.css">')

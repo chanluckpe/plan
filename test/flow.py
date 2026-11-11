@@ -10,7 +10,7 @@ with sync_playwright() as p:
     def svgpt(x,y):
         pg.evaluate("window.scrollTo(0,0)")
         return pg.evaluate(f"(()=>{{const b=document.getElementById('board');const pt=b.createSVGPoint();pt.x={x};pt.y={y};const q=pt.matrixTransform(b.getScreenCTM());return [q.x,q.y]}})()")
-    pg.click('[data-ktg]'); pg.click('[data-kind="cut"]')
+    pg.click('[data-kind="cut"]')
     sf=pg.evaluate("play.players.find(p=>p.pos==='SF')")
     a=svgpt(sf['x'],sf['y']); c=svgpt(sf['x']+20,sf['y']-30)
     pg.mouse.move(*a); pg.mouse.down()
